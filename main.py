@@ -1,8 +1,6 @@
 import os
-import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
@@ -25,7 +23,7 @@ nome_usuario = url.split('/')[-1]
 # Abra a página no navegador
 driver.get(url)
 
-# Aguarde até que as imagens estejam presentes na página
+# Aguarde até que todas as imagens estejam carregadas
 wait = WebDriverWait(driver, 10)
 elementos_imagens = wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, 'img')))
 
