@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 # Função para criar diretório se não existir
@@ -24,13 +23,7 @@ driver.get(url_perfil)
 
 # Aguarde até que todas as imagens estejam presentes, com um tempo de espera de 20 segundos
 wait = WebDriverWait(driver, 20)
-elementos_imagens = wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, 'img')))
-
-# Crie uma instância do BeautifulSoup com o conteúdo atualizado da página
-soup = BeautifulSoup(driver.page_source, 'html.parser')
-
-# Encontre as imagens na página
-imagens = soup.find_all('img')
+elementos_imagens = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//img[@srcset]')))
 
 # Obtenha o nome de usuário a partir da URL
 nome_usuario = url_perfil.split('/')[-1]
@@ -38,9 +31,12 @@ nome_usuario = url_perfil.split('/')[-1]
 # Chame a função para criar o diretório
 criar_diretorio(nome_usuario)
 
+# Encontre todas as imagens com atributo srcset
+imagens = driver.find_elements(By.XPATH, '//img[@srcset]')
+
 # Itera sobre as imagens e faça o download
 for i, img in tqdm(enumerate(imagens), total=len(imagens), desc='Baixando imagens'):
-    url = img['src']
+    url = img.get_attribute('src')
     response = requests.get(url)
     with open(f'{nome_usuario}/imagem_{i}.jpg', 'wb') as f:
         f.write(response.content)
