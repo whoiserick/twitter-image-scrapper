@@ -15,29 +15,14 @@ def criar_diretorio(nome_usuario):
 # Inicialize o WebDriver do Chrome
 driver = webdriver.Chrome()
 
-# URL do login do Twitter
-url_login = 'https://twitter.com/login'
+# URL do perfil do Twitter que você deseja acessar
+url_perfil = 'https://twitter.com/ukazuhira'
 
-# Credenciais da sua conta
-usuario = 'seu_usuario'
-senha = 'sua_senha'
+# Abra a página do perfil do Twitter
+driver.get(url_perfil)
 
-# Abra a página de login do Twitter
-driver.get(url_login)
-
-# Aguarde até que os campos de login e senha estejam presentes na página
+# Aguarde até que todas as imagens estejam presentes
 wait = WebDriverWait(driver, 10)
-elemento_usuario = wait.until(EC.presence_of_element_located((By.NAME, 'session[username_or_email]')))
-elemento_senha = wait.until(EC.presence_of_element_located((By.NAME, 'session[password]')))
-
-# Preencha os campos de login e senha
-elemento_usuario.send_keys(usuario)
-elemento_senha.send_keys(senha)
-
-# Envie o formulário de login
-elemento_senha.send_keys(Keys.RETURN)
-
-# Aguarde até que todas as imagens estejam carregadas
 elementos_imagens = wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, 'img')))
 
 # Crie uma instância do BeautifulSoup com o conteúdo atualizado da página
@@ -47,7 +32,7 @@ soup = BeautifulSoup(driver.page_source, 'html.parser')
 imagens = soup.find_all('img')
 
 # Obtenha o nome de usuário a partir da URL
-nome_usuario = usuario
+nome_usuario = url_perfil.split('/')[-1]
 
 # Chame a função para criar o diretório
 criar_diretorio(nome_usuario)
