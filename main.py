@@ -1,4 +1,5 @@
 import os
+import requests  # Adicione esta linha no início do seu código
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
