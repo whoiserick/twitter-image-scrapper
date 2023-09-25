@@ -31,11 +31,15 @@ nome_usuario = url_perfil.split('/')[-1]
 # Chame a função para criar o diretório
 criar_diretorio(nome_usuario)
 
-# Encontre todas as imagens com atributo srcset
-imagens = driver.find_elements(By.XPATH, '//img[@srcset]')
+# Encontre todas as imagens na página
+imagens = driver.find_elements(By.TAG_NAME, 'img')
+
+# Filtrar apenas as imagens com o atributo src definido
+imagens_com_src = [img for img in imagens if img.get_attribute('src')]
+
 
 # Itera sobre as imagens e faça o download
-for i, img in tqdm(enumerate(imagens), total=len(imagens), desc='Baixando imagens'):
+for i, img in tqdm(enumerate(imagens_com_src), total=len(imagens_com_src), desc='Baixando imagens'):
     url = img.get_attribute('src')
     response = requests.get(url)
     with open(f'{nome_usuario}/imagem_{i}.jpg', 'wb') as f:
