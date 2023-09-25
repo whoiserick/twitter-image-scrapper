@@ -22,8 +22,8 @@ url_perfil = 'https://twitter.com/ukazuhira'
 # Abra a página do perfil do Twitter
 driver.get(url_perfil)
 
-# Aguarde até que todas as imagens estejam presentes
-wait = WebDriverWait(driver, 10)
+# Aguarde até que todas as imagens estejam presentes, com um tempo de espera de 20 segundos
+wait = WebDriverWait(driver, 20)
 elementos_imagens = wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, 'img')))
 
 # Crie uma instância do BeautifulSoup com o conteúdo atualizado da página
