@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 # Função para criar diretório se não existir
 def criar_diretorio(nome_usuario):
@@ -38,7 +39,7 @@ nome_usuario = url_perfil.split('/')[-1]
 criar_diretorio(nome_usuario)
 
 # Itera sobre as imagens e faça o download
-for i, img in enumerate(imagens):
+for i, img in tqdm(enumerate(imagens), total=len(imagens), desc='Baixando imagens'):
     url = img['src']
     response = requests.get(url)
     with open(f'{nome_usuario}/imagem_{i}.jpg', 'wb') as f:
