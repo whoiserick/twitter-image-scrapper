@@ -3,7 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
 # Função para criar diretório se não existir
@@ -11,8 +10,11 @@ def criar_diretorio(nome_usuario):
     if not os.path.exists(nome_usuario):
         os.makedirs(nome_usuario)
 
+# Caminho para o ChromeDriver na pasta raiz do projeto
+chromedriver_path = os.path.join(os.getcwd(), 'chromedriver')
+
 # Inicialize o WebDriver do Chrome
-driver = webdriver.Chrome(ChromeDriverManager().install())
+driver = webdriver.Chrome(chromedriver_path)
 
 # URL do perfil do Twitter
 url = 'https://twitter.com/ukazuhira'
